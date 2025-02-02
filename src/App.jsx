@@ -1,10 +1,14 @@
+import { useState } from "react";
 import "./App.css";
-import FetchImages from "./fetch-components/Fetch-images";
+import FetchPokemonNames from "./fetch-components/Fetch-pokemons";
+import DisplayPokemon from "./display-components/DisplayImage";
 
 function App() {
+  const [pokemonNames, setPokemonNames] = useState(new Set());
   return (
     <>
-      <FetchImages />
+      <FetchPokemonNames pokemonNames={pokemonNames} setPokemonNames={setPokemonNames} />
+      <DisplayPokemon names={pokemonNames} />;
     </>
   );
 }
