@@ -1,15 +1,13 @@
 import { useEffect, useRef } from "react";
 
-export default function FetchPokemonNames({ pokemonNames, setPokemonNames }) {
+export default function FetchPokemonData({ pokemonData, setPokemonData }) {
   const baseUrl = "https://pokeapi.co/api/v2/pokemon/";
   const hasFetched = useRef(false);
 
   const fetchPokemon = async (loops = 4) => {
     let attempts = 0;
-    const maxAttempts = 5;
-    while (pokemonNames.size < loops && attempts < maxAttempts) {
+    while (pokemonData.size < loops && attempts < loops) {
       attempts++;
-      console.log(attempts);
       const randomId = Math.floor(Math.random() * 1017) + 1;
       try {
         const response = await fetch(`${baseUrl}${randomId}`);
@@ -18,9 +16,17 @@ export default function FetchPokemonNames({ pokemonNames, setPokemonNames }) {
         }
 
         const pokemonData = await response.json();
-        console.log(pokemonData);
-        setPokemonNames((prevNames) => new Set([...prevNames, pokemonData.name]));
-        console.log(pokemonData);
+        setPokemonData(
+          (prevNames) =>
+            new Set([
+              ...prevNames,
+              {
+                id: crypto.randomUUID(),
+                name: pokemonData.name,
+                imageUrl: pokemonData.sprites.front_default,
+              },
+            ])
+        );
       } catch (error) {
         console.log(error);
       }
