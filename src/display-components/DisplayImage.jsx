@@ -1,7 +1,4 @@
-import { keepScore } from "../game-logic/ScoreKeeping";
-
-export default function DisplayPokemon({ pokemonObj, handlePokemonClick }) {
-  const pokemonArray = Array.from(pokemonObj);
+export default function DisplayPokemon({ pokemonArray, handlePokemonClick }) {
   return (
     <div className="all-pokemon-wrapper">
       {pokemonArray.map((pokemon) => (

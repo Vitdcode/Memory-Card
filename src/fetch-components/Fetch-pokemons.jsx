@@ -4,9 +4,10 @@ export default function FetchPokemonData({ pokemonData, setPokemonData }) {
   const baseUrl = "https://pokeapi.co/api/v2/pokemon/";
   const hasFetched = useRef(false);
 
-  const fetchPokemon = async (loops = 4) => {
+  const fetchPokemon = async (loops = 10) => {
     let attempts = 0;
-    while (pokemonData.size < loops && attempts < loops) {
+
+    while (pokemonData.length < loops && attempts < loops) {
       attempts++;
       const randomId = Math.floor(Math.random() * 1017) + 1;
       try {
@@ -16,17 +17,14 @@ export default function FetchPokemonData({ pokemonData, setPokemonData }) {
         }
 
         const pokemonData = await response.json();
-        setPokemonData(
-          (prevNames) =>
-            new Set([
-              ...prevNames,
-              {
-                id: crypto.randomUUID(),
-                name: pokemonData.name,
-                imageUrl: pokemonData.sprites.front_default,
-              },
-            ])
-        );
+        setPokemonData((prevPokemon) => [
+          ...prevPokemon,
+          {
+            id: crypto.randomUUID(),
+            name: pokemonData.name,
+            imageUrl: pokemonData.sprites.front_default,
+          },
+        ]);
       } catch (error) {
         console.log(error);
       }
